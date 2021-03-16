@@ -64,7 +64,11 @@ The function requires 4 inputs:
 ADO(fx=x, gx=y, target=targets, n_pairs=100000)
 ```
 
-the output is a single floating point value of ADO.
+Additionally, a binary option `randomize` can be used to shuffle the fx and gx pairs each time the ADO is calculated. This is set to `False` by default so that results are reproducible. However, you may want to randomize sig/bkg pairs in order to calculate uncertainties. 
+
+```python
+ADO(fx=x, gx=y, target=targets, n_pairs=100000, randomize=True)
+```
 
 ## Test Example
 
