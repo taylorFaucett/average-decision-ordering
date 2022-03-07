@@ -1,12 +1,12 @@
 from setuptools import setup
 
 setup(name='average_decision_ordering',
-    version='0.5.2',
+    version='1.0',
     description='Calculates the average decision ordering metric',
     url='http://github.com/tfaucett/average_decision_ordering',
     author='Taylor Faucett',
     author_email='tfaucett@uci.edu',
-    copyright = 'Copyright 9c) 2017 Taylor Faucett',
+    copyright = 'Copyright (c) 2017 Taylor Faucett',
     keywords = ['statistics', 'physics', 'math'],
     license='MIT',
     packages=['average_decision_ordering'],

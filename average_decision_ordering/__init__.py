@@ -1,16 +1,44 @@
 #! /usr/bin/env python
 
-import numpy as np
-import pandas as pd
 import random
 
+import numpy as np
+import pandas as pd
+
+
 def heaviside(x):
+    """Calculates the heaviside function for any input
+
+    Args:
+        x (float): input variable to have the heaviside function calculated
+
+    Returns:
+        float: result of the heaviside function
+    """
     return 0.5 * (np.sign(x) + 1)
 
 def norm(x):
+    """normalizes the array to values between 0 and 1
+
+    Args:
+        x (list): list of floating point values
+
+    Returns:
+        list: normalized list of floating point values
+    """
     return (x-min(x))/(max(x)-min(x))
 
 def random_pairs(x, y, l):
+    """Generates random pairs from two lists of floating point values
+
+    Args:
+        x (list): list of floating point numbers
+        y (list): list of floating point numbers
+        l (int): Size of final list of randomized pairs
+
+    Returns:
+        dataframe: pandas dataframe with randomized pairs from the inputs x and y
+    """
     random.shuffle(x)
     random.shuffle(y)
     min_size = min(len(x), len(y))
@@ -31,8 +59,17 @@ def random_pairs(x, y, l):
     return df.to_numpy()
 
 def calc_do(fx0, fx1, gx0, gx1):
-    def heaviside(x):
-        return 0.5 * (np.sign(x) + 1)
+    """Calculates the difference ordering between two background pairs (fx0, gx0) and two signal pairs (fx1, gx1)
+
+    Args:
+        fx0 (float): First background value
+        fx1 (float): First signal value
+        gx0 (float): Second background value
+        gx1 (float): Second signal value
+
+    Returns:
+        float: single decision ordering result
+    """
 
     dfx = fx0 - fx1
     dgx = gx0 - gx1
@@ -40,6 +77,17 @@ def calc_do(fx0, fx1, gx0, gx1):
     return dos
 
 def calc_ado(fx, gx, target, n_pairs):
+    """Calculates the average decision ordering from two lists of floating point values after normalization
+
+    Args:
+        fx (list): first list of floating point values
+        gx (list): second list of floating point values
+        target (list): list of binary classification targets (i.e. 0,1)
+        n_pairs (int): number of pairs to average over
+
+    Returns:
+        float: average decision ordering
+    """
     if n_pairs > len(fx)*len(gx):
         print("Requested pairs exceeds maximum sig/bkg combinations available")
         print("Please choose a value for n_pairs < len(fx)*len(gx)")
