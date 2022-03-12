@@ -1,4 +1,5 @@
 import numpy as np
+
 from average_decision_ordering import calc_ado
 
 data_size = 50000
