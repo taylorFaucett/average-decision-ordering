@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 
-def heaviside(x):
+def heaviside(x: list) -> float:
     """Calculates the heaviside function for any input
 
     Args:
@@ -17,7 +17,8 @@ def heaviside(x):
     """
     return 0.5 * (np.sign(x) + 1)
 
-def norm(x):
+
+def norm(x: list):
     """normalizes the array to values between 0 and 1
 
     Args:
@@ -26,9 +27,10 @@ def norm(x):
     Returns:
         list: normalized list of floating point values
     """
-    return (x-min(x))/(max(x)-min(x))
+    return (x - min(x)) / (max(x) - min(x))
 
-def random_pairs(x, y, l):
+
+def random_pairs(x: list, y: list, l: int):
     """Generates random pairs from two lists of floating point values
 
     Args:
@@ -44,21 +46,22 @@ def random_pairs(x, y, l):
     min_size = min(len(x), len(y))
     x = x[:min_size]
     y = y[:min_size]
-    rp = np.vstack((x,y)).T
+    rp = np.vstack((x, y)).T
     loop_count = 0
     while len(rp) < l:
         random.shuffle(x)
         random.shuffle(y)
-        app_rp = np.vstack((x,y)).T
+        app_rp = np.vstack((x, y)).T
         rp = np.concatenate((rp, app_rp), axis=0)
         loop_count += 1
         if loop_count > 100:
             break
-    df = pd.DataFrame({"x":rp[:,0], "y":rp[:,1]})
+    df = pd.DataFrame({"x": rp[:, 0], "y": rp[:, 1]})
     df.drop_duplicates(inplace=True, keep='first')
     return df.to_numpy()
 
-def calc_do(fx0, fx1, gx0, gx1):
+
+def calc_do(fx0: float, fx1: float, gx0: float, gx1: float):
     """Calculates the difference ordering between two background pairs (fx0, gx0) and two signal pairs (fx1, gx1)
 
     Args:
@@ -76,7 +79,8 @@ def calc_do(fx0, fx1, gx0, gx1):
     dos = heaviside(np.multiply(dfx, dgx))
     return dos
 
-def calc_ado(fx, gx, target, n_pairs):
+
+def calc_ado(fx: list, gx: list, target: list, n_pairs: int):
     """Calculates the average decision ordering from two lists of floating point values after normalization
 
     Args:
@@ -88,20 +92,20 @@ def calc_ado(fx, gx, target, n_pairs):
     Returns:
         float: average decision ordering
     """
-    if n_pairs > len(fx)*len(gx):
+    if n_pairs > len(fx) * len(gx):
         print("Requested pairs exceeds maximum sig/bkg combinations available")
         print("Please choose a value for n_pairs < len(fx)*len(gx)")
         return
     # normalize input data
     fx = norm(fx)
     gx = norm(gx)
-        
+
     # Combine the data into a single dataframe
     dfy = pd.DataFrame({"fx": fx, "gx": gx, "y": target})
 
     # Separate data into signal and background
     dfy_sb = dfy.groupby("y")
-    
+
     # Set signal/background dataframes
     df0 = dfy_sb.get_group(0)
     df1 = dfy_sb.get_group(1)
