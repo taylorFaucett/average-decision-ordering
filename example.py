@@ -2,8 +2,8 @@ import numpy as np
 
 from average_decision_ordering import calc_ado
 
-data_size = 50000
-n_pairs = 100000
+data_size = 50000 # Size of the test data set
+n_pairs = 100000 # Maximum number of pairs
 x = np.random.rand(data_size)
 y = np.random.rand(data_size)
 targets = np.random.randint(2, size=data_size)
